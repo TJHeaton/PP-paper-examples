@@ -44,6 +44,7 @@ n_samp <- rpois(1, sum(true_rate))
 theta_true <- sample(t, n_samp, replace = TRUE, prob = true_rate)
 
 
+
 # Sample some 14C determinations
 rc_sigmas <- rep(25, n_samp)
 rc_determinations <- rnorm(n_samp,
@@ -55,6 +56,9 @@ rc_determinations <- rnorm(n_samp,
                                                intcal20$c14_sig,
                                                theta_true)$y)^2) )
 
+
+# Normalise so SPD can be compared to true_rate
+norm_constant_true_rate <- sum(true_rate)
 
 
 #########################################################
@@ -162,6 +166,8 @@ mtext(LETTERS[2], side = 3, adj = lab_adj, cex = 0.8 * panel_label_cex/plot_scal
 dev.off()
 
 
+
+
 ############################################
 ### Now fit a PP to the data
 
@@ -220,7 +226,7 @@ abline(v = t[350 + 400], col = abline_col, lty = abline_lty, lwd = abline_lwd)
 abline(v = t[1], col = abline_col, lty = abline_lty, lwd = abline_lwd)
 abline(v = t[length(t)], col = abline_col, lty = abline_lty, lwd = abline_lwd)
 
-# Add SPD
+# Add SPD (nomrlaised so comparable to truerate )
 if(add_SPD) {
   SPD_initial_fit <- FindSummedProbabilityDistribution(
     calendar_age_range_BP= range(simulated_PP_mean_fit$calendar_age_BP),
@@ -230,7 +236,7 @@ if(add_SPD) {
     plot_output = FALSE, plot_pretty = FALSE)
   polygon(
     c(SPD_initial_fit$calendar_age_BP, rev(SPD_initial_fit$calendar_age_BP)),
-    200 * c(SPD_initial_fit$probability, rep(0, length(SPD_initial_fit$probability))),
+    norm_constant_true_rate * c(SPD_initial_fit$probability, rep(0, length(SPD_initial_fit$probability))),
     border = NA,
     col = SPD_colour)
 }
@@ -328,7 +334,7 @@ if(pdf_output) {
       units = "in", res = 480)
 }
 
-PlotPosteriorHeights(PP_fit_output_simulation_2, n_changes = c(3,4, 5))
+PlotPosteriorHeights(PP_fit_output_simulation_2, n_changes = c(3, 4, 5))
 
 # Overlay the true underlying rates
 abline(v = unique(c(0,true_rate)), col = abline_col, lty = abline_lty, lwd = abline_lwd)
