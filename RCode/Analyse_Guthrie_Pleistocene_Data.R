@@ -1,15 +1,26 @@
-# Figure 1 - A violin plot of Guthrie's 14C determinations
+# This file analyses the Guthrie data:
+# Creates Figure 1 - A violin plot of Guthrie's 14C determinations
+# Fits PP model to each species and creates plots/figures shown later in the paper
+
 library(carbondate)
 
 # Violin plot of the radiocarbon ages of the different species in Yukon
 library(ggplot2)
 library(patchwork)
 
-# Now fit to each species and plot
+# Decide if want plotting output as pdf (TRUE) or png (FALSE)
 pdf_output <- FALSE
 
-
+# 14C ages at which to cutoff analysis
 cutoffages <- c(6000, 25000)
+
+# Choose a common prior on number of changepoints
+prior_n_internal_changepoints_lambda <- 6
+
+
+
+##############################################
+### Read in the Guthrie data
 
 # Read in 14C information on human occupation
 data <- read.csv("PleistoceneDates/Humanc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
@@ -68,6 +79,12 @@ Pleist14C <- rbind(Human14C, Bison14C, Mammoth14C, Alces14C)
 Pleist14C$Species <- factor(Pleist14C$Species,
                             levels = c("Human", "Alces", "Bison", "Mammoth"))
 
+
+
+
+##################################################################
+### Create initial violin plots and plot human 14C determinations against IntCal20 curve
+
 # Create violin plot
 ggplot2::theme_update(plot.tag = element_text(face = "bold"))
 
@@ -94,6 +111,9 @@ dev.off()
 source("PlotHumansvsIntCal20.R")
 
 
+
+
+
 ##################################################
 # Fit a PP model to each of the datasets and create later plots
 ##################################################
@@ -111,13 +131,8 @@ Heinrich <- rbind(YD, Heinrich)
 
 
 
-
-
-
-# Choose a common prior on number of changepoints
-prior_n_internal_changepoints_lambda <- 6
-
 # Run code to fit PP model and create plotted output for later figures
+set.seed(17)
 source("FitPPHumans.R")
 source("FitPPAlces.R")
 source("FitPPBison.R")

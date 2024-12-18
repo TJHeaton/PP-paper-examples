@@ -70,6 +70,9 @@ for(i in seq(1, dim(Heinrich)[1], by = 2)) {
 }
 
 text(x = 21000, y = 0.25 *max(ylim), labels = "Human", col = "magenta", cex = 2 )
+
+xtick <- seq(6000, 30000, by= 500)
+axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.025)
 dev.off()
 
 
@@ -132,7 +135,6 @@ dev.off()
 #######################################################################
 ### Plot the posterior number of internal changes
 
-opar <- par(no.readonly = TRUE)
 
 out_file_name <- paste("Plots/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
@@ -153,13 +155,11 @@ if(pdf_output) {
 
 par(cex.axis = 1.6,
     cex.lab = 1.6,
-    mar = c(5, 4.5, 0.1, 0.1) + 0.1)
+    mar = c(5, 4.5, 0.85, 0.55) + 0.1)
 
 
 PlotNumberOfInternalChanges(human_PP_fit_output)
 
 dev.off()
 
-
-par(opar)
 
