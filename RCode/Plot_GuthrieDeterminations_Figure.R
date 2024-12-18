@@ -117,7 +117,7 @@ Heinrich <- rbind(YD, Heinrich)
 # Choose a common prior on number of changepoints
 prior_n_internal_changepoints_lambda <- 6
 
-# Run code to fit PP model and show output
+# Run code to fit PP model and create plotted output for later figures
 source("FitPPHumans.R")
 source("FitPPAlces.R")
 source("FitPPBison.R")

@@ -1,12 +1,12 @@
-# Fit PP process to HUMANS and plot
+# Fit PP process to BISON and plot
 # using Guthrie (2006)
 # NOTE: You must have sourced CreatePlotsforPleistocene.R beforehand to get data
 
 
-# Fit PP model to the human data
-human_PP_fit_output <- PPcalibrate(
-  rc_determinations = Human14C$C14age,
-  rc_sigmas = Human14C$C14sig,
+# Fit PP model to the bison data
+bison_PP_fit_output <- PPcalibrate(
+  rc_determinations = Bison14C$C14age,
+  rc_sigmas = Bison14C$C14sig,
   calibration_curve = intcal20,
   calendar_age_range = calendar_age_range,
   calendar_grid_resolution = 1,
@@ -18,7 +18,7 @@ human_PP_fit_output <- PPcalibrate(
 ## Plot the posterior mean occurrence rate
 out_file_name <- paste("Plots/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
-                       "/FitPP_Human_PriorMean_",
+                       "/FitPP_Bison_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Changes", sep = "")
 
@@ -33,8 +33,9 @@ if(pdf_output) {
       units = "in", res = 480)
 }
 
-# Plot the posterior mean for rate of human occupation
-human_PP_mean_fit <- PlotPosteriorMeanRate(human_PP_fit_output,
+
+# Plot the posterior mean for rate of bison
+bison_PP_mean_fit <- PlotPosteriorMeanRate(bison_PP_fit_output,
                                            show_individual_means = FALSE)
 # We do not show the individual posterior mean calendar ages as it is a bit confusing
 
@@ -45,8 +46,8 @@ par(new = TRUE,
     yaxs = "i",
     mar = c(5, 4.5, 4, 2) + 0.1,
     las = 1)
-xlim <- rev(range(human_PP_mean_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(human_PP_mean_fit$rate_mean))
+xlim <- rev(range(bison_PP_mean_fit$calendar_age_BP))
+ylim <- c(0, 3 * max(bison_PP_mean_fit$rate_mean))
 plot(
   NULL,
   NULL,
@@ -58,8 +59,7 @@ plot(
   ylab = NA,
   xaxs = "i",
   yaxs = "i")
-
-# Overlay the hotter/cooler time periods of Heinrich Events
+# Overlay the true underlying changepoints
 for(i in seq(1, dim(Heinrich)[1], by = 2)) {
   tempcal <- Heinrich$calage[c(i, i+1)]
   tempx <- c(tempcal, rev(tempcal))
@@ -69,7 +69,7 @@ for(i in seq(1, dim(Heinrich)[1], by = 2)) {
   text(mean(tempcal), max(tempy), labels = substr(name, nchar(name)-1, nchar(name)), pos = 1)
 }
 
-text(x = 21000, y = 0.25 *max(ylim), labels = "Human", col = "magenta", cex = 2 )
+text(x = 21000, y = 0.25 *max(ylim), labels = "Bison", col = "magenta", cex = 2 )
 dev.off()
 
 
@@ -77,7 +77,7 @@ dev.off()
 #Plot changepoint locations
 out_file_name <- paste("Plots/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
-                       "/FitPP_Human_PriorMean_",
+                       "/FitPP_Bison_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Locations_Changepoint", sep = "")
 if(pdf_output) {
@@ -96,10 +96,10 @@ par(mgp = c(3, 0.7, 0),
     yaxs = "i",
     mar = c(5, 4.5, 4, 2) + 0.1,
     las = 1)
-PlotPosteriorChangePoints(human_PP_fit_output, n_changes = c(4,5, 6))
+PlotPosteriorChangePoints(bison_PP_fit_output, n_changes = c(4,5, 6))
 par(new = TRUE)
-xlim <- rev(range(human_PP_mean_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(human_PP_mean_fit$rate_mean))
+xlim <- rev(range(bison_PP_mean_fit$calendar_age_BP))
+ylim <- c(0, 3 * max(bison_PP_mean_fit$rate_mean))
 plot(
   NULL,
   NULL,
@@ -122,7 +122,7 @@ for(i in seq(1, dim(Heinrich)[1], by = 2)) {
   text(mean(tempcal), max(tempy), labels = substr(name, nchar(name)-1, nchar(name)), pos = 1)
 }
 
-text(x = 21000, y = 0.25 *max(ylim), labels = "Human", col = "magenta", cex = 2 )
+text(x = 21000, y = 0.25 *max(ylim), labels = "Bison", col = "magenta", cex = 2 )
 
 xtick<-seq(6000, 30000, by= 500)
 axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.025)
@@ -136,7 +136,7 @@ opar <- par(no.readonly = TRUE)
 
 out_file_name <- paste("Plots/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
-                       "/FitPP_Human_PriorMean_",
+                       "/FitPP_Bison_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Number_Changepoint", sep = "")
 
@@ -155,11 +155,13 @@ par(cex.axis = 1.6,
     cex.lab = 1.6,
     mar = c(5, 4.5, 0.1, 0.1) + 0.1)
 
-
-PlotNumberOfInternalChanges(human_PP_fit_output)
+PlotNumberOfInternalChanges(bison_PP_fit_output)
 
 dev.off()
 
-
 par(opar)
+
+
+
+
 
