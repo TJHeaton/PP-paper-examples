@@ -7,20 +7,28 @@ Heaton TJ, Bard E & Al-assam S. (to appear) "A New Approach to Radiocarbon Summa
 The paper provides a series of analyses, the code to reproduce them (and to generate figures used in manuscripts) can be found here. We also provide the Dale Guthrie (2006) 14C dates and the outputs.  
 
 ### R scripts
-The scripts can be found in the R/ directory. The only scripts which need to be directly runs/sourced are entitled e.g. 001_, 002_, ... all others scripts are called within these master scripts.
+The scripts can be found in the R/ directory. The only scripts which need to be directly runs/sourced are entitled e.g. `001_`, `002_`, ... all others scripts are called within these master scripts.
 
 ### Data
-The original Dale Guthrie (2006) data is found in the data/PleistoceneDates directory
+The original Dale Guthrie (2006) data is found in the `data/PleistoceneDates/` directory
 
 ### Output
-The output plots are stored in the output/ directory (with relevant subdirectories). On running the scripts, the figures in these directories will be overwritten     
+The output plots are stored in the `output` directory (which contains relevant subdirectories dependent upon the exmaples run). On running the scripts, the figures in these directories will be overwritten.     
 
 ## Specific Analyses
 
 The specific analyses one might wish to run are: 
 
-### 001 - Analysis of Late-pleistocene Megafauna (Dale Guthrie, 2006)
-This code can be run by sourcing *001_Analyse_Guthrie_Pleistocene_c14_Dates.R*. It will
+### Analysis of Late-pleistocene Megafauna (Dale Guthrie, 2006)
+This code can be run by sourcing:
+*001_Analyse_Guthrie_Pleistocene_c14_Dates.R* 
+This will fit the Poisson process model to the humans, alces, bison and mammoth c14 dates and plot the outputs. In the code, I have specified the prior on the number of changepoints to  have a mean of 6. The output plots will be saved in `output/PriorMeanChangepoints6/`.  If you change the prior mean on the number of changepoints you will need to create a new subdirectory with the relevant name, e.g., `output/PriorMeanChangepoints8/` if you change it to 8. 
+
+### Simulation Study
+
+
+
+### Evidence of SPOD failure
 
 
 
