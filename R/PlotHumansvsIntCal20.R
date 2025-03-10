@@ -6,7 +6,7 @@ plot_human_mincal <- 9000
 plot_human_maxcal <- 16000
 
 ## Select file name for output
-out_file_name <- "Plots/IllustrateHumans14CDeterminatons"
+out_file_name <- "output/IllustrateHumans14CDeterminatons"
 
 if(pdf_output) {
   pdf(paste(out_file_name, ".pdf", sep = ""),

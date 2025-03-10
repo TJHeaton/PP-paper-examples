@@ -1,6 +1,5 @@
-# Fit PP process to MAMMOTH and plot
-# using Guthrie (2006)
-# NOTE: You must have sourced CreatePlotsforPleistocene.R beforehand to get data
+# Fit PP process to MAMMOTH and plot using Guthrie (2006)
+# NOTE: You must have sourced 001_Analyse_Guthrie_Pleistocene_c14_Dates.R beforehand to get data
 
 
 # Fit PP model to the mammoth data
@@ -16,7 +15,7 @@ mammoth_PP_fit_output <- PPcalibrate(
   show_progress = TRUE)
 
 ## Plot the posterior mean occurrence rate
-out_file_name <- paste("Plots/PriorMeanChangepoints",
+out_file_name <- paste("output/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
                        "/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,
@@ -78,7 +77,7 @@ dev.off()
 
 ##############################################
 #Plot changepoint locations
-out_file_name <- paste("Plots/PriorMeanChangepoints",
+out_file_name <- paste("output/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
                        "/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,
@@ -134,7 +133,7 @@ dev.off()
 #######################################################################
 ### Plot the posterior number of internal changes
 
-out_file_name <- paste("Plots/PriorMeanChangepoints",
+out_file_name <- paste("output/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
                        "/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,

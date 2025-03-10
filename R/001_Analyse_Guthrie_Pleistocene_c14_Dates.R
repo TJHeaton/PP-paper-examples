@@ -1,7 +1,10 @@
-# This file analyses the Guthrie data:
-# Creates Figure 1 - A violin plot of Guthrie's 14C determinations
-# Fits PP model to each species and creates plots/figures shown later in the paper
+# This file analyses the Guthrie data of Pleistocene Animals:
+# Specifically:
+# 1 - Creates Figure 1 - A violin plot of Guthrie's 14C determinations
+# 2 - Fits Poisson Process model to each species and creates plots/figures shown in real-life case study
 
+# Install development version 1.0.1.9000 of carbondate library
+devtools::install_github("TJHeaton/carbondate")
 library(carbondate)
 
 # Violin plot of the radiocarbon ages of the different species in Yukon
@@ -23,7 +26,7 @@ prior_n_internal_changepoints_lambda <- 6
 ### Read in the Guthrie data
 
 # Read in 14C information on human occupation
-data <- read.csv("PleistoceneDates/Humanc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
+data <- read.csv("data/PleistoceneDates/Humanc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
 keep <- which(data$X14C < cutoffages[2] & data$X14C > cutoffages[1])
 data <- data[keep,]
 removena <- which(is.na(data$X14C) | is.na(data$X1..Sigma))
@@ -36,7 +39,7 @@ xsig <- data$X1..Sigma
 Human14C <- data.frame(C14age = x, C14sig = xsig, Species = "Human")
 
 # Read in 14C information on bison
-data <- read.csv("PleistoceneDates/Bisonc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
+data <- read.csv("data/PleistoceneDates/Bisonc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
 keep <- which(data$X14C < cutoffages[2] & data$X14C > cutoffages[1])
 data <- data[keep,]
 removena <- which(is.na(data$X14C) | is.na(data$X1..Sigma))
@@ -49,7 +52,7 @@ xsig <- data$X1..Sigma
 Bison14C <- data.frame(C14age = x, C14sig = xsig, Species = "Bison")
 
 # Read in 14C information on mammoth
-data <- data <- read.csv("PleistoceneDates/Mammothc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
+data <- data <- read.csv("data/PleistoceneDates/Mammothc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
 keep <- which(data$X14C < cutoffages[2] & data$X14C > cutoffages[1])
 data <- data[keep,]
 removena <- which(is.na(data$X14C) | is.na(data$X1..Sigma))
@@ -62,7 +65,7 @@ xsig <- data$X1..Sigma
 Mammoth14C <- data.frame(C14age = x, C14sig = xsig, Species = "Mammoth")
 
 # Read in 14C information on alces/moose
-data <- read.csv("PleistoceneDates/Alcesc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
+data <- read.csv("data/PleistoceneDates/Alcesc14Dates.csv", header = TRUE, na.strings = c("", "greater than"))
 keep <- which(data$X14C < cutoffages[2] & data$X14C > cutoffages[1])
 data <- data[keep,]
 removena <- which(is.na(data$X14C) | is.na(data$X1..Sigma))
@@ -99,16 +102,16 @@ p <- p + theme(legend.position = "none")
 p <- p + labs(tag = "A")
 p
 
-ggsave("Plots/Pleistocene14CDates.pdf", width = 5.98, height = 5.03, device = "pdf") # Height was 6.03
+ggsave("output/Pleistocene14CDates.pdf", width = 5.98, height = 5.03, device = "pdf") # Height was 6.03
 
 # Also create a png output
-png("Plots/Pleistocene14CDates.png", width = 5.98, height = 5.03, units = "in", res = 480)
+png("output/Pleistocene14CDates.png", width = 5.98, height = 5.03, units = "in", res = 480)
 p
 dev.off()
 
 
 # Create panel B showing 14C determinations of humans against IntCal20
-source("PlotHumansvsIntCal20.R")
+source("R/PlotHumansvsIntCal20.R")
 
 
 
@@ -124,7 +127,7 @@ max_calendar_age_range <- intcal20$calendar_age_BP[which.min(abs(intcal20$c14_ag
 calendar_age_range <- c(min_calendar_age_range, max_calendar_age_range)
 
 # Read in cold/warm periods
-Heinrich <- read.csv("PleistoceneDates/HeinrichDates.csv", header = FALSE)
+Heinrich <- read.csv("data/PleistoceneDates/HeinrichDates.csv", header = FALSE)
 names(Heinrich) <- c("Event", "calage")
 YD <- data.frame(Event = c("end YD", "start YD"), calage = c(11703, 12896) - 50)
 Heinrich <- rbind(YD, Heinrich)
@@ -133,10 +136,10 @@ Heinrich <- rbind(YD, Heinrich)
 
 # Run code to fit PP model and create plotted output for later figures
 set.seed(17)
-source("FitPPHumans.R")
-source("FitPPAlces.R")
-source("FitPPBison.R")
-source("FitPPMammoth.R")
+source("R/FitPPHumans.R")
+source("R/FitPPAlces.R")
+source("R/FitPPBison.R")
+source("R/FitPPMammoth.R")
 
 
 
