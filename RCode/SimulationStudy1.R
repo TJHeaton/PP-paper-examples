@@ -1,5 +1,6 @@
 # This code implements simulation study 1
 # An example where there is a single uniform phase model (i.e. two change points)
+devtools::install_github("TJHeaton/carbondate")
 library(carbondate)
 
 # Select plotting parameters
@@ -188,4 +189,48 @@ mtext(LETTERS[3], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
 dev.off()
+
+
+#############################################
+# Plot for Suppl Info
+# A - Some individual posterior realisations
+# B - Posterior mean conditioned on specific k
+# For illustrative purposes
+#############################################
+
+## Plot S1A: Some individual posterior realisations
+if(pdf_output) {
+  pdf("Plots/SimulationStudy1/PosteriorRealisations.pdf",
+      width = plot_width/plot_scale_fac,
+      height = plot_height/plot_scale_fac)
+} else {
+  png("Plots/SimulationStudy1/PosteriorRealisations.png",
+      width = plot_width/plot_scale_fac,
+      height = plot_height/plot_scale_fac,
+      units = "in", res = 480)
+}
+
+
+# Plot A - Some individual posterior realisations
+
+
+# Choose some nice plotting colours (from Okabe-Ito)
+realisation_colours <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442" )
+
+# Plot 5 random realisations from posterior
+PlotRateIndividualRealisation(
+  PP_fit_output_simulation_1,
+  n_realisations = 5,
+  plot_realisations_colour = realisation_colours)
+
+
+# Conditional on TWO internal changes in the occurrence rate,
+# Calculate and plot the posterior mean rate over time
+# (with its 2 sigma intervals)
+conditional_2_changes_posterior_mean_rate <- PlotPosteriorMeanRate(
+  PP_fit_output,
+  n_changes = 2) # here n_changes must have length one (i.e., a single number)
+
+
+
 
