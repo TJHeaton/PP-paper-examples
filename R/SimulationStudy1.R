@@ -201,18 +201,14 @@ dev.off()
 ## Plot S1A: Some individual posterior realisations
 if(pdf_output) {
   pdf("Plots/SimulationStudy1/PosteriorRealisations.pdf",
-      width = plot_width/plot_scale_fac,
+      width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
   png("Plots/SimulationStudy1/PosteriorRealisations.png",
-      width = plot_width/plot_scale_fac,
+      width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
 }
-
-
-# Plot A - Some individual posterior realisations
-
 
 # Choose some nice plotting colours (from Okabe-Ito)
 realisation_colours <- c("#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442" )
@@ -223,14 +219,83 @@ PlotRateIndividualRealisation(
   n_realisations = 5,
   plot_realisations_colour = realisation_colours)
 
+par(new = TRUE,
+    mgp = c(3, 0.7, 0),
+    xaxs = "i",
+    yaxs = "i",
+    mar = c(5, 4.5, 4, 2) + 0.1,
+    las = 1)
+xlim <- rev(range(simulated_PP_mean_fit$calendar_age_BP))
+ylim <- c(0, 3 * max(simulated_PP_mean_fit$rate_mean))
+plot(
+  NULL,
+  NULL,
+  type = "n",
+  ylim = ylim,
+  xlim = xlim,
+  axes = FALSE,
+  xlab = NA,
+  ylab = NA,
+  xaxs = "i",
+  yaxs = "i")
 
-# Conditional on TWO internal changes in the occurrence rate,
+# Overlay the true underlying changepoints
+abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+
+mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
+      line = 5/3 * (-1), outer = FALSE)
+
+dev.off()
+
+
+
+## Plot S1B: Posterior Mean conditional on TWO internal changes in the occurrence rate,
 # Calculate and plot the posterior mean rate over time
 # (with its 2 sigma intervals)
+if(pdf_output) {
+  pdf("Plots/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.pdf",
+      width = 1.5 * plot_width/plot_scale_fac,
+      height = plot_height/plot_scale_fac)
+} else {
+  png("Plots/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.png",
+      width = 1.5 * plot_width/plot_scale_fac,
+      height = plot_height/plot_scale_fac,
+      units = "in", res = 480)
+}
+
 conditional_2_changes_posterior_mean_rate <- PlotPosteriorMeanRate(
-  PP_fit_output,
+  PP_fit_output_simulation_1,
   n_changes = 2) # here n_changes must have length one (i.e., a single number)
 
+par(new = TRUE,
+    mgp = c(3, 0.7, 0),
+    xaxs = "i",
+    yaxs = "i",
+    mar = c(5, 4.5, 4, 2) + 0.1,
+    las = 1)
+xlim <- rev(range(simulated_PP_mean_fit$calendar_age_BP))
+ylim <- c(0, 3 * max(simulated_PP_mean_fit$rate_mean))
+plot(
+  NULL,
+  NULL,
+  type = "n",
+  ylim = ylim,
+  xlim = xlim,
+  axes = FALSE,
+  xlab = NA,
+  ylab = NA,
+  xaxs = "i",
+  yaxs = "i")
+
+# Overlay the true underlying changepoints
+abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+
+mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
+      line = 5/3 * (-1), outer = FALSE)
+
+dev.off()
 
 
 
