@@ -1,4 +1,4 @@
-# This file analyses the Guthrie data of Pleistocene Animals:
+# This file analyses the Dale Guthrie (2006) data of Pleistocene Megafauna:
 # Specifically:
 # 1 - Creates Figure 1 - A violin plot of Guthrie's 14C determinations
 # 2 - Fits Poisson Process model to each species and creates plots/figures shown in real-life case study
