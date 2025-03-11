@@ -20,7 +20,11 @@ add_SPD <- TRUE
 lab_adj <- 0.02
 panel_label_cex <- plot_scale_fac * 4/3
 
+# Decide if write plots to file
+write_plots_to_file <- FALSE
 
+# Store user par parameters (and revert back to these at the end)
+oldpar <- par(no.readonly = TRUE)
 
 
 # Create a simulate lambda (piecewise constant) and plot it with the data
@@ -65,15 +69,19 @@ norm_constant_true_rate <- sum(true_rate)
 
 #########################################################
 ### Create plot to show the underlying (true) PP rate
-if(pdf_output) {
-  pdf("output/IllustratePP.pdf",
-      width = 8,
-      height = 3)
-} else {
-  png("output/IllustratePP.png",
-      width = 8,
-      height = 3,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/IllustratePP.pdf",
+        width = 8,
+        height = 3)
+  } else {
+    png("output/IllustratePP.png",
+        width = 8,
+        height = 3,
+        units = "in", res = 480)
+  }
 }
 
 # Layout as two plots
@@ -165,8 +173,12 @@ plot(c(min(t), t, max(t)), c(0,true_rate,0), lty = 1, col = "red", type = "l",
 mtext(LETTERS[2], side = 3, adj = lab_adj, cex = 0.8 * panel_label_cex/plot_scale_fac, font = 2,
       line = 3.4/3 * (-1), outer = FALSE)
 
-dev.off()
+# Reset plotting parameters to remove mfrow 2 column layout
+par(oldpar)
 
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
@@ -190,15 +202,19 @@ PP_fit_output_simulation_2 <- PPcalibrate(
 ######### Now create the plots of the posterior
 
 # Now plot the Poisson process rate
-if(pdf_output) {
-  pdf("output/SimulationStudy2/PosteriorMean.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy2/PosteriorMean.png",
-      width = 3 * plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy2/PosteriorMean.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy2/PosteriorMean.png",
+        width = 3 * plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 ## Plot 1: The posterior mean occurrence rate
@@ -250,43 +266,54 @@ if(add_true_rate) {
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 ###########################################################################
 ### Plot 2: The posterior number of internal changes
-if(pdf_output) {
-  pdf("output/SimulationStudy2/Number_Changepoints.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy2/Number_Changepoints.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy2/Number_Changepoints.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy2/Number_Changepoints.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 PlotNumberOfInternalChanges(PP_fit_output_simulation_2)
 
 mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
-dev.off()
 
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
 #######################################################################
 ## Plot 3: The locations of the changes
-if(pdf_output) {
-  pdf("output/SimulationStudy2/Changepoint_Locations.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy2/Changepoint_Locations.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy2/Changepoint_Locations.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy2/Changepoint_Locations.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 
@@ -319,21 +346,26 @@ abline(v = t[length(t)], col = abline_col, lty = abline_lty, lwd = abline_lwd)
 mtext(LETTERS[3], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 ############################################################
 ### Plot 4: The posterior rates in the different periods
-if(pdf_output) {
-  pdf("output/SimulationStudy2/PosteriorHeights.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy2/PosteriorHeights.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy2/PosteriorHeights.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy2/PosteriorHeights.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 PlotPosteriorHeights(PP_fit_output_simulation_2, n_changes = c(3, 4, 5))
@@ -344,7 +376,12 @@ abline(v = unique(c(0,true_rate)), col = abline_col, lty = abline_lty, lwd = abl
 mtext(LETTERS[4], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
+if(write_plots_to_file) {
+  dev.off()
+}
+
+# Return to user specified par parameters (before running code)
+par(oldpar)
 
 
 

@@ -11,8 +11,14 @@ library(carbondate)
 library(ggplot2)
 library(patchwork)
 
+# Decide if write plots to file
+write_plots_to_file <- FALSE
+
 # Decide if want plotting output as pdf (TRUE) or png (FALSE)
 pdf_output <- FALSE
+
+# Store user par parameters (and revert back to these at the end)
+oldpar <- par(no.readonly = TRUE)
 
 # 14C ages at which to cutoff analysis
 cutoffages <- c(6000, 25000)
@@ -140,6 +146,10 @@ source("R/FitPPHumans.R")
 source("R/FitPPAlces.R")
 source("R/FitPPBison.R")
 source("R/FitPPMammoth.R")
+
+
+# Return to user specified par parameters (before running code)
+par(oldpar)
 
 
 

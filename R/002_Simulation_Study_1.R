@@ -15,8 +15,15 @@ add_SPD <- TRUE
 lab_adj <- 0.02
 panel_label_cex <- plot_scale_fac * 4/3
 
+
+# Decide if write plots to file
+write_plots_to_file <- FALSE
+
 # Decide if want plotting output as pdf (TRUE) or png (FALSE)
 pdf_output <- FALSE
+
+# Store user par parameters (and revert back to these at the end)
+oldpar <- par(no.readonly = TRUE)
 
 # Create some simulated calendar dates from min_cal to max_cal
 set.seed(14)
@@ -37,13 +44,13 @@ obs_radiocarbon_sigmas <- rep(25, n_samp)
 
 # Create simulated 14C determinations
 obs_radiocarbon_ages <- rnorm(n_samp,
-                          mean = approx(intcal20$calendar_age_BP,
-                                        intcal20$c14_age,
-                                        theta_true)$y,
-                          sd = sqrt(obs_radiocarbon_sigmas^2 +
-                                      (approx(intcal20$calendar_age_BP,
-                                              intcal20$c14_sig,
-                                              theta_true)$y)^2) )
+                              mean = approx(intcal20$calendar_age_BP,
+                                            intcal20$c14_age,
+                                            theta_true)$y,
+                              sd = sqrt(obs_radiocarbon_sigmas^2 +
+                                          (approx(intcal20$calendar_age_BP,
+                                                  intcal20$c14_sig,
+                                                  theta_true)$y)^2) )
 
 
 
@@ -62,15 +69,20 @@ PP_fit_output_simulation_1 <- PPcalibrate(
 ######### Now create plots to show results
 
 # Now plot the Poisson process rate
-if(pdf_output) {
-  pdf("output/SimulationStudy1/PosteriorMean.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy1/PosteriorMean.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy1/PosteriorMean.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy1/PosteriorMean.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 ## Plot 1: The posterior mean occurrence rate
@@ -117,43 +129,54 @@ abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255)
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 #######################################################################
 ### Plot 2: The posterior number of internal changes
-if(pdf_output) {
-  pdf("output/SimulationStudy1/Number_Changepoints.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy1/Number_Changepoints.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy1/Number_Changepoints.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy1/Number_Changepoints.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 PlotNumberOfInternalChanges(PP_fit_output_simulation_1)
 
 mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
-dev.off()
 
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
 #######################################################################
 ## Plot 3: The locations of the changes
-if(pdf_output) {
-  pdf("output/SimulationStudy1/Changepoint_Locations.pdf",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy1/Changepoint_Locations.png",
-      width = plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy1/Changepoint_Locations.pdf",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy1/Changepoint_Locations.png",
+        width = plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 
@@ -190,8 +213,9 @@ abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255)
 mtext(LETTERS[3], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}
 
 #############################################
 # Plot for Suppl Info
@@ -201,15 +225,19 @@ dev.off()
 #############################################
 
 ## Plot S1A: Some individual posterior realisations
-if(pdf_output) {
-  pdf("output/SimulationStudy1/PosteriorRealisations.pdf",
-      width = 1.5 * plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy1/PosteriorRealisations.png",
-      width = 1.5 * plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy1/PosteriorRealisations.pdf",
+        width = 1.5 * plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy1/PosteriorRealisations.png",
+        width = 1.5 * plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 # Choose some nice plotting colours (from Okabe-Ito)
@@ -248,22 +276,27 @@ abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255)
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 ## Plot S1B: Posterior Mean conditional on TWO internal changes in the occurrence rate,
 # Calculate and plot the posterior mean rate over time
 # (with its 2 sigma intervals)
-if(pdf_output) {
-  pdf("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.pdf",
-      width = 1.5 * plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac)
-} else {
-  png("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.png",
-      width = 1.5 * plot_width/plot_scale_fac,
-      height = plot_height/plot_scale_fac,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.pdf",
+        width = 1.5 * plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac)
+  } else {
+    png("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.png",
+        width = 1.5 * plot_width/plot_scale_fac,
+        height = plot_height/plot_scale_fac,
+        units = "in", res = 480)
+  }
 }
 
 conditional_2_changes_posterior_mean_rate <- PlotPosteriorMeanRate(
@@ -297,7 +330,12 @@ abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255)
 mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
 
-dev.off()
+if(write_plots_to_file) {
+  dev.off()
+}
+
+# Return to user specified par parameters (before running code)
+par(oldpar)
 
 
 

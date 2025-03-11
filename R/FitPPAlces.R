@@ -21,15 +21,18 @@ out_file_name <- paste("output/PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
                        "_Changes", sep = "")
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 16,
-      height = 4)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 16,
-      height = 4,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 16,
+        height = 4)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 16,
+        height = 4,
+        units = "in", res = 480)
+  }
 }
 
 
@@ -72,8 +75,10 @@ text(x = 21000, y = 0.25 *max(ylim), labels = "Alces", col = "magenta", cex = 2 
 
 xtick <- seq(6000, 30000, by= 500)
 axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.025)
-dev.off()
 
+if(write_plots_to_file) {
+  dev.off()
+}
 
 ##############################################
 #Plot changepoint locations
@@ -82,15 +87,19 @@ out_file_name <- paste("output//PriorMeanChangepoints",
                        "/FitPP_Alces_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Locations_Changepoint", sep = "")
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 16,
-      height = 4)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 16,
-      height = 4,
-      units = "in", res = 480)
+
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 16,
+        height = 4)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 16,
+        height = 4,
+        units = "in", res = 480)
+  }
 }
 
 par(mgp = c(3, 0.7, 0),
@@ -128,8 +137,10 @@ text(x = 21000, y = 0.25 *max(ylim), labels = "Alces", col = "magenta", cex = 2 
 
 xtick<-seq(6000, 30000, by= 500)
 axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.025)
-dev.off()
 
+if(write_plots_to_file) {
+  dev.off()
+}
 
 #######################################################################
 ### Plot the posterior number of internal changes
@@ -140,23 +151,29 @@ out_file_name <- paste("output//PriorMeanChangepoints",
                        prior_n_internal_changepoints_lambda,
                        "_Number_Changepoint", sep = "")
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 5,
-      height = 5)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 5,
-      height = 5,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 5,
+        height = 5)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 5,
+        height = 5,
+        units = "in", res = 480)
+  }
+  # Change plotting size for pdf/png files only
+  par(cex.axis = 1.6,
+      cex.lab = 1.6,
+      mar = c(5, 4.5, 0.85, 0.55) + 0.1)
 }
 
-par(cex.axis = 1.6,
-    cex.lab = 1.6,
-    mar = c(5, 4.5, 0.85, 0.55) + 0.1)
+
 
 
 PlotNumberOfInternalChanges(alces_PP_fit_output)
 
-dev.off()
-
+if(write_plots_to_file) {
+  dev.off()
+}

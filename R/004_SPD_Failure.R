@@ -13,6 +13,11 @@ panel_label_cex <- 4/3
 # Decide if want plotting output as pdf (TRUE) or png (FALSE)
 pdf_output <- FALSE
 
+# Decide if write plots to file
+write_plots_to_file <- FALSE
+
+# Store user par parameters (and revert back to these at the end)
+oldpar <- par(no.readonly = TRUE)
 
 ##############################################################
 #### Plots/Illustration 1
@@ -24,18 +29,19 @@ pdf_output <- FALSE
 # Plot 1
 out_file_name <- "output/SPDFailure/SPDOverlyVariable"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 12,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 12,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 12,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 12,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
-
-oldpar <- par(no.readonly = TRUE)
 
 par(mgp = c(3, 0.7, 0),
     xaxs = "i",
@@ -95,22 +101,27 @@ curve(truedens(
 # Reset plotting parameters
 par(oldpar)
 
-dev.off()
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 #####
 # Plot B - show how a DPMM works to recreate correct calendar age density
 out_file_name <- "output/SPDFailure/DPMMFit"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 12,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 12,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 12,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 12,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 oldpar <- par(no.readonly = TRUE)
@@ -170,7 +181,9 @@ curve(truedens(
 # Reset plotting parameters
 par(oldpar)
 
-dev.off()
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
@@ -184,15 +197,18 @@ dev.off()
 
 out_file_name <- "output/SPDFailure/SPDSingleDetermination"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 12,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 12,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 12,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 12,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 # Illustrate how single determination calibrates to multiple peaks
@@ -214,235 +230,11 @@ calibration_result <- CalibrateSingleDetermination(
   calibration_curve = intcal20,
   plot_output = TRUE, plot_pretty = FALSE)
 
-dev.off()
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
-
-##############################################################
-#### Plots/Illustration 3
-#### Set of four plots to show failure of confidence intervals
-##############################################################
-
-
-# Sample 50 from a uniform distribution
-
-####### Create simulated truth
-# Create some simulated calendar dates from mincal to maxcal
-set.seed(14)
-mincal <- 2050
-maxcal <- 2100
-
-nsamp <- 50
-theta_true <- sample(mincal:maxcal, size = nsamp, replace = TRUE)
-
-calendar_age_range_BP=c(1900, 2200) # It will fit 400 cal yrs ither side
-
-# Sample some 14C determinations
-radiocarbon_sigmas_SPD_confint<- rep(25, nsamp)
-radiocarbon_ages_SPD_confint <- rnorm(nsamp,
-                                      mean = approx(intcal20$calendar_age_BP,
-                                                    intcal20$c14_age,
-                                                    theta_true)$y,
-                                      sd = sqrt(radiocarbon_sigmas_SPD_confint^2 +
-                                                  (approx(intcal20$calendar_age_BP,
-                                                          intcal20$c14_sig,
-                                                          theta_true)$y)^2) )
-
-
-
-## Plot A - Sampling from a uniform phase
-# pdf("Plots/BootstrapFailure1.pdf", width = 8, height = plot_height)
-png("output/SPDFailure/SPDBootstrapFailure/BootstrapFailure1.png", width = 8, height = plot_height, units = "in", res = 480)
-par(mgp = c(3, 0.7, 0),
-    xaxs = "i",
-    yaxs = "i",
-    mar = c(5, 4.5, 0.1, 2) + 0.1,
-    las = 1)
-
-x_lim_plot <- c(2600,1500)
-
-plot(intcal20$calendar_age_BP, intcal20$c14_age, col = "blue",
-     ylab = expression(paste("Radiocarbon age (", ""^14, "C yr BP)")),
-     xlab = "Calendar Age (cal yr BP)",
-     xlim = x_lim_plot, ylim = c(1400, 2700),
-     type = "l", main = "")
-
-# Add ylabel and smaller ticks
-#mtext("Calendar Age (cal yr BP)", side = 1, line = 2)
-xtick<-seq(1400, 4000, by=20)
-ytick<-seq(1400, 4000, by=20)
-axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.015)
-axis(side=2, at=ytick, labels = FALSE, lwd = 0.5, tck = -0.015)
-
-
-# Plot calibration curve
-intcal20$ub <- intcal20$c14_age + 1.96 * intcal20$c14_sig
-intcal20$lb <- intcal20$c14_age - 1.96 * intcal20$c14_sig
-lines(intcal20$calendar_age_BP, intcal20$ub, lty = 3, col = "blue" )
-lines(intcal20$calendar_age_BP, intcal20$lb, lty = 3, col = "blue")
-polygon(c(rev(intcal20$calendar_age_BP), intcal20$calendar_age_BP),
-        c(rev(intcal20$lb), intcal20$ub), col=rgb(0,0,1,.3), border=NA)
-rug(radiocarbon_ages_SPD_confint, side = 2, ticksize = 0.03, lwd = 1, col = "red")
-
-legend_labels <- c(
-  substitute(paste(""^14, "C determination ")),
-  "IntCal20",
-  expression(paste("2", sigma, " interval")))
-lty <- c(1, 1, 2)
-lwd <- c(1, 1, 1)
-pch <- c(NA, NA, NA)
-col <- c(grDevices::rgb(1, 0, 0, .5), "blue", "blue")
-legend("topright", legend = legend_labels, lty = lty, lwd=lwd, pch = pch, col = col)
-
-# Create polygon of true density
-t <- seq(mincal, maxcal, by = 1)
-truerate <- rep(1, length(t))/length(t) # So integrates to 1
-
-# Plot the true rate along the bottom
-par(new = TRUE)
-plot(c(min(t), t, max(t)), c(0,truerate,0), lty = 1, col = "red", type = "l",
-     ylim = c(0, 1.2 * max(truerate)), xlim = x_lim_plot,
-     axes = FALSE, xlab = NA, ylab = NA, yaxs = "i")
-dens_polygon <- cbind(c(min(t), t, max(t)),
-                      c(0,truerate,0))
-
-polygon(dens_polygon, col = grDevices::rgb(1, 0, 0, .5))
-
-
-mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
-      line = 3.4/3 * (-1), outer = FALSE)
-dev.off()
-
-
-
-# Plot B - showing the SPD of this density (doesn't look like the original)
-# pdf("Plots/BootstrapFailure2.pdf", width = 8, height = plot_height)
-png("output/SPDFailure/SPDBootstrapFailure/BootstrapFailure2.png", width = 8, height = plot_height, units = "in", res = 480)
-
-par(mgp = c(3, 0.7, 0),
-    xaxs = "i",
-    yaxs = "i",
-    mar = c(5, 4.5, 0.1, 2) + 0.1,
-    las = 1)
-
-SPD_initial_fit <- FindSummedProbabilityDistribution(
-  calendar_age_range_BP=c(1900, 2200),
-  rc_determinations= radiocarbon_ages_SPD_confint,
-  rc_sigmas = radiocarbon_sigmas_SPD_confint,
-  calibration_curve=intcal20,
-  plot_output = TRUE, plot_pretty = FALSE)
-
-
-par(new = TRUE,
-    mgp = c(3, 0.7, 0),
-    xaxs = "i",
-    yaxs = "i",
-    mar = c(5, 4.5, 0.1, 2) + 0.1,
-    las = 1)
-xlim <- rev(range(SPD_initial_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(SPD_initial_fit$probability))
-plot(
-  NULL,
-  NULL,
-  type = "n",
-  ylim = ylim,
-  xlim = xlim,
-  axes = FALSE,
-  xlab = NA,
-  ylab = NA,
-  xaxs = "i",
-  yaxs = "i")
-polygon(dens_polygon,
-        border = NA,
-        col = grDevices::rgb(1, 0, 0, .25))
-axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.015)
-axis(side=2, at=ytick, labels = FALSE, lwd = 0.5, tck = -0.015)
-
-
-# Now resample 50 observations from SPD
-set.seed(32)
-resampled_calendar_ages <- sample(
-  x = SPD_initial_fit$calendar_age_BP,
-  size = nsamp,
-  replace = TRUE,
-  prob = SPD_initial_fit$probability)
-
-resampled_radiocarbon_ages <- rnorm(nsamp,
-                                    mean = approx(intcal20$calendar_age_BP,
-                                                  intcal20$c14_age,
-                                                  resampled_calendar_ages)$y,
-                                    sd = sqrt(radiocarbon_sigmas_SPD_confint^2 +
-                                                (approx(intcal20$calendar_age_BP,
-                                                        intcal20$c14_sig,
-                                                        resampled_calendar_ages)$y)^2) )
-rug(resampled_calendar_ages, col = "purple")
-
-mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
-      line = 3.4/3 * (-1), outer = FALSE)
-
-dev.off()
-
-# Plot C - SPD on resampled/bootstrap sample
-#pdf("Plots/BootstrapFailure3.pdf", width = 8, height = plot_height)
-png("output/SPDFailure/SPDBootstrapFailure/BootstrapFailure3.png", width = 8, height = plot_height, units = "in", res = 480)
-
-par(mgp = c(3, 0.7, 0),
-    xaxs = "i",
-    yaxs = "i",
-    mar = c(5, 4.5, 0.1, 2) + 0.1,
-    las = 1)
-
-SPD_bootstrap_fit <- FindSummedProbabilityDistribution(
-  calendar_age_range_BP=c(1900, 2200),
-  rc_determinations= resampled_radiocarbon_ages,
-  rc_sigmas = radiocarbon_sigmas_SPD_confint,
-  calibration_curve=intcal20,
-  plot_output = TRUE, plot_pretty = FALSE)
-
-par(new = TRUE,
-    mgp = c(3, 0.7, 0),
-    xaxs = "i",
-    yaxs = "i",
-    mar = c(5, 4.5, 0.1, 2) + 0.1,
-    las = 1)
-xlim <- rev(range(SPD_bootstrap_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(SPD_bootstrap_fit$probability))
-plot(
-  NULL,
-  NULL,
-  type = "n",
-  ylim = ylim,
-  xlim = xlim,
-  axes = FALSE,
-  xlab = NA,
-  ylab = NA,
-  xaxs = "i",
-  yaxs = "i")
-polygon(dens_polygon,
-        border = NA,
-        col = grDevices::rgb(1, 0, 0, .25))
-
-bootstrap_SPD_fit_polygon <- cbind(c(min(SPD_bootstrap_fit$calendar_age_BP),
-                                     SPD_bootstrap_fit$calendar_age_BP,
-                                     max(SPD_bootstrap_fit$calendar_age_BP)),
-                                   c(0,
-                                     SPD_bootstrap_fit$probability,
-                                     0)
-)
-
-polygon(bootstrap_SPD_fit_polygon,
-        border = NA,
-        col = grDevices::rgb(1, 0, 1, .25))
-
-axis(side=1, at=xtick, labels = FALSE, lwd = 0.5, tck = -0.015)
-axis(side=2, at=ytick, labels = FALSE, lwd = 0.5, tck = -0.015)
-
-mtext(LETTERS[3], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
-      line = 3.4/3 * (-1), outer = FALSE)
-
-dev.off()
-
-
-
-
+# Return to user specified par parameters (before running code)
+par(oldpar)
 

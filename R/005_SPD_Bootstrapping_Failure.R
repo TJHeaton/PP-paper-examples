@@ -19,6 +19,12 @@ denscale <- 3
 # Decide if want plotting output as pdf (TRUE) or png (FALSE)
 pdf_output <- FALSE
 
+# Decide if write plots to file
+write_plots_to_file <- FALSE
+
+# Store user par parameters (and revert back to these at the end)
+oldpar <- par(no.readonly = TRUE)
+
 
 ####################################################################
 ####### Create simulated truth
@@ -36,13 +42,13 @@ calendar_age_range_BP <- c(1900, 2200)
 # Sample some 14C determinations corresponding to these calendar ages
 obs_radiocarbon_sigmas <- rep(25, n_samp)
 obs_radiocarbon_ages <- rnorm(n_samp,
-                                      mean = approx(intcal20$calendar_age_BP,
-                                                    intcal20$c14_age,
-                                                    theta_true)$y,
-                                      sd = sqrt(obs_radiocarbon_sigmas^2 +
-                                                  (approx(intcal20$calendar_age_BP,
-                                                          intcal20$c14_sig,
-                                                          theta_true)$y)^2) )
+                              mean = approx(intcal20$calendar_age_BP,
+                                            intcal20$c14_age,
+                                            theta_true)$y,
+                              sd = sqrt(obs_radiocarbon_sigmas^2 +
+                                          (approx(intcal20$calendar_age_BP,
+                                                  intcal20$c14_sig,
+                                                  theta_true)$y)^2) )
 
 
 # Create initial SPD (helps find initial plotting parameters too so can make consistent plots)
@@ -84,15 +90,18 @@ rm(calibration_curve_lb,
 ## Plot A - Illustrate sampling 14C determinations  from a uniform phase
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure1"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 8,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 8,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 8,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 8,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 par(mgp = c(3, 0.7, 0),
@@ -156,7 +165,13 @@ polygon(dens_polygon, col = grDevices::rgb(1, 0, 0, .5))
 
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 3.4/3 * (-1), outer = FALSE)
-dev.off()
+
+# Reset plotting parameters
+par(oldpar)
+
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
@@ -164,15 +179,18 @@ dev.off()
 # Plot B - showing the SPD of this density (doesn't look like the original)
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure2"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 8,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 8,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 8,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 8,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 par(mgp = c(3, 0.7, 0),
@@ -259,7 +277,12 @@ plot(
   yaxs = "i")
 rug(obs_radiocarbon_ages, side = 2, ticksize = 0.03, lwd = 1, col = "red")
 
-dev.off()
+# Reset plotting parameters
+par(oldpar)
+
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 ##############################################################
@@ -277,15 +300,18 @@ plot_denscale_bootstrap <- denscale * max(SPD_initial_fit$probability)/max(SPD_b
 
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure3"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 8,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 8,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 8,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 8,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 par(mgp = c(3, 0.7, 0),
@@ -363,7 +389,12 @@ plot(
   yaxs = "i")
 rug(resampled_radiocarbon_ages, side = 2, col = "purple")
 
-dev.off()
+# Reset plotting parameters
+par(oldpar)
+
+if(write_plots_to_file) {
+  dev.off()
+}
 
 
 
@@ -436,15 +467,18 @@ bootstrap_SPD_CI <- FindBootstrapSPDInterval(SPD_initial_fit = SPD_initial_fit,
 # Make actual plot
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure4"
 
-if(pdf_output) {
-  pdf(paste(out_file_name, ".pdf", sep = ""),
-      width = 8,
-      height = plot_height)
-} else {
-  png(paste(out_file_name, ".png", sep = ""),
-      width = 8,
-      height = plot_height,
-      units = "in", res = 480)
+# Decide if write plots to a file
+if(write_plots_to_file) {
+  if(pdf_output) {
+    pdf(paste(out_file_name, ".pdf", sep = ""),
+        width = 8,
+        height = plot_height)
+  } else {
+    png(paste(out_file_name, ".png", sep = ""),
+        width = 8,
+        height = plot_height,
+        units = "in", res = 480)
+  }
 }
 
 
@@ -523,4 +557,9 @@ plot(
   yaxs = "i")
 rug(obs_radiocarbon_ages, side = 2, ticksize = 0.03, lwd = 1, col = "red")
 
-dev.off()
+# Reset plotting parameters
+par(oldpar)
+
+if(write_plots_to_file) {
+  dev.off()
+}
