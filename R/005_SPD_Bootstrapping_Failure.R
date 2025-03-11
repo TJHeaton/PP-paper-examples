@@ -4,6 +4,9 @@
 ##############################################################
 
 # Illustrate the failings of SPDs
+
+# Install development version 1.0.1.9000 of carbondate library
+devtools::install_github("TJHeaton/carbondate")
 library(carbondate)
 
 # Plotting parameters
@@ -79,7 +82,7 @@ rm(calibration_curve_lb,
    cal_age_ind_min)
 
 ## Plot A - Illustrate sampling 14C determinations  from a uniform phase
-out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure/BootstrapFailure1"
+out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure1"
 
 if(pdf_output) {
   pdf(paste(out_file_name, ".pdf", sep = ""),
@@ -159,7 +162,7 @@ dev.off()
 
 #####################################################################################
 # Plot B - showing the SPD of this density (doesn't look like the original)
-out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure/BootstrapFailure2"
+out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure2"
 
 if(pdf_output) {
   pdf(paste(out_file_name, ".pdf", sep = ""),
@@ -272,7 +275,7 @@ SPD_bootstrap_fit <- FindSummedProbabilityDistribution(
 plot_denscale_bootstrap <- denscale * max(SPD_initial_fit$probability)/max(SPD_bootstrap_fit$probability)
 
 
-out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure/BootstrapFailure3"
+out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure3"
 
 if(pdf_output) {
   pdf(paste(out_file_name, ".pdf", sep = ""),
@@ -369,75 +372,8 @@ dev.off()
 # Plot D - Create plot showing SPD bootstrap intervals
 
 
-## First write a function to calculate supposed bootstrap CI for SPD
-Not_WorkingFindBootstrapSPDInterval <- function(SPD_initial_fit,
-                                     obs_radiocarbon_sigmas,
-                                     calendar_age_range_BP,
-                                     n_boot = 100,
-                                     CI_probs = c(0.025, 0.975)) {
-
-  n_samp <- length(obs_radiocarbon_sigmas)
-  n_resamples_needed <- n_samp * n_boot
-
-  # Create resamplesd calendar ages
-  # We need n_resamples_needed which we will then convert to a matrix
-  # where each row corresponds to a bootstrap resample i
-  resampled_calendar_ages <- sample(
-    x = SPD_initial_fit$calendar_age_BP,
-    size = n_resamples_needed,
-    replace = TRUE,
-    prob = SPD_initial_fit$probability)
-
-  # Mean of 14C determinations resampled from SPD
-  resampled_radiocarbon_mean <- approx(intcal20$calendar_age_BP,
-                                           intcal20$c14_age,
-                                           resampled_calendar_ages)$y
-
-  # Sd of determinations resampled from SPD
-  # Combination of lab-reported/observed and calibration curve
-  resampled_radiocarbon_sigmas <- sqrt(rep(obs_radiocarbon_sigmas, n_boot)^2 +
-                                             (approx(intcal20$calendar_age_BP,
-                                                     intcal20$c14_sig,
-                                                     resampled_calendar_ages)$y)^2)
-
-
-  resampled_radiocarbon_ages <- rnorm(n_resamples_needed,
-                                      mean = resampled_radiocarbon_mean,
-                                      sd = resampled_radiocarbon_sigmas)
-
-  # Convert resampled 14C ages to matrix (each row is a single resample)
-  bootstrap_resample_radiocarbon_ages <- matrix(resampled_calendar_ages,
-                                                byrow = TRUE,
-                                                nrow = n_boot)
-
-  # Now create SPD for each row
-  n_calendar_grid <- length(SPD_initial_fit$calendar_age_BP)
-  bootstrap_SPD <- matrix(NA, ncol = n_calendar_grid, nrow = n_boot)
-
-  for(i in 1:n_boot) {
-    bootstrap_SPD[i,] <- FindSummedProbabilityDistribution(
-      calendar_age_range_BP = calendar_age_range_BP,
-      rc_determinations = bootstrap_resample_radiocarbon_ages[i,],
-      rc_sigmas = obs_radiocarbon_sigmas,
-      calibration_curve = intcal20,
-      plot_output = FALSE, plot_pretty = FALSE)$probability
-  }
-
-  # Now find CI
-  bootstrap_SPD_lower_CI <- apply(bootstrap_SPD, 2, quantile, probs = CI_probs[1])
-  bootstrap_SPD_upper_CI <- apply(bootstrap_SPD, 2, quantile, probs = CI_probs[2])
-
-  retlist <- list(calendar_age_BP = SPD_initial_fit$calendar_age_BP,
-                  bootstrap_SPD_lower_CI = bootstrap_SPD_lower_CI,
-                  bootstrap_SPD_upper_CI = bootstrap_SPD_upper_CI)
-  return(retlist)
-}
-
-
-
-
 # Function to calculate supposed bootstrap CI for SPD
-FindBootstrapSPDInterval_MethodB <- function(SPD_initial_fit,
+FindBootstrapSPDInterval <- function(SPD_initial_fit,
                                      obs_radiocarbon_sigmas,
                                      calendar_age_range_BP,
                                      n_boot = 100,
@@ -475,7 +411,7 @@ FindBootstrapSPDInterval_MethodB <- function(SPD_initial_fit,
     if(!identical(range(Temp_bootstrap_SPD$calendar_age_BP), c(1500, 2600))) stop("Broken SPD")
 
     bootstrap_SPD[i,] <- Temp_bootstrap_SPD$probability
-#   lines(Temp_bootstrap_SPD$calendar_age_BP, Temp_bootstrap_SPD$probability)
+
   }
 
   # Now find CI
@@ -491,14 +427,14 @@ FindBootstrapSPDInterval_MethodB <- function(SPD_initial_fit,
 
 
 set.seed(18)
-bootstrap_SPD_CI <- FindBootstrapSPDInterval_MethodB(SPD_initial_fit = SPD_initial_fit,
+bootstrap_SPD_CI <- FindBootstrapSPDInterval(SPD_initial_fit = SPD_initial_fit,
                                              obs_radiocarbon_sigmas = obs_radiocarbon_sigmas,
                                              calendar_age_range_BP = calendar_age_range_BP,
                                              n_boot = 10000)
 
 
 # Make actual plot
-out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure/BootstrapFailure4"
+out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure4"
 
 if(pdf_output) {
   pdf(paste(out_file_name, ".pdf", sep = ""),

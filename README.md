@@ -3,14 +3,14 @@ This repository contains all the code to run the examples for the Poisson proces
 
 Heaton TJ, Bard E & Al-assam S. (to appear) "A New Approach to Radiocarbon Summarisation: Rigorous Identification of Variations/Changepoints in the Occurrence Rate of Radiocarbon Samples using a Poisson Process." _Journal of Archaelogical Science_ (XXXX)
 
-all code uses the R library that is provided alongside the manuscript.  
+All code uses the `carbondate` R library that is provided alongside the manuscript. The scripts use the current development version 1.0.1.9000 available using `devtools::install_github("TJHeaton/carbondate")` but all the code (except the SI figures in simulation study 1) will also run using version 1.0.1 available through CRAN.    
 
 
 ## Repository Format 
 The paper provides a series of analyses. The code to reproduce each of them (and to generate the figures used in the manuscript) can all be found here. We also provide the Dale Guthrie (2006) 14C dates and the outputs.  
 
 ### R scripts
-All scripts can be found in the `R/` directory. The only scripts which need to be directly runs/sourced are entitled e.g. `001_`, `002_`, ... all others scripts are called within these master scripts.
+All scripts can be found in the `R/` directory. The only scripts which need to be directly runs/sourced are entitled e.g. `001_`, `002_`, ... all others scripts are called within these master scripts. These master scripts are all independent of one another (they are self-contained)
 
 ### Data
 The original Dale Guthrie (2006) data is found in the `data/PleistoceneDates/` directory
@@ -20,7 +20,7 @@ The output plots are stored in the `output` directory (which contains relevant s
 
 ## Specific Analyses
 
-The specific analyses one might wish to run are: 
+The specific analyses one might wish to run are describd below. All scripts can be run independently of one another: 
 
 ### Analysis of Late-pleistocene Megafauna (Dale Guthrie, 2006)
 This code can be run by sourcing:
@@ -40,16 +40,13 @@ The manuscript provides two simulation studies. To run these, source:
 Again plots of the posterior mean of the sample occurrence rate, histograms of the posterior number of changepoints, and histograms of their locations are generated in `output/SimulationStudy1` and `output/SimulationStudy2` respectively. For simulation study 1, we also create the plots in the SI showing individual posterior realisations of the rate (and the mean rate conditional on a specified number of changepoints)  
 
 
-### Evidence of SPOD failure
-The demonstration of how SPDs fail to provide valid estimates are reproduced by
+### Evidence of SPD failure
+The demonstrations/illustrations of how SPDs fail to provide reliable or accurate estimates are reproduced by
 
-- 004_SPDFailure.R --- 
-- 005_SPD_Bootstrapping_Failure.R --- to run the simulation study example 2, a Poisson process with four changepoints
-
-
+- 004_SPDFailure.R --- creates plots showing how SPDs are overly variable (Figure 2) and how an SPD of a songle determination makes no sense (Figure 3)
+- 005_SPD_Bootstrapping_Failure.R --- creates plot illustrating the failure of bootstrapping and confidence intervals for SPDs (Figure 4) 
 
 
-I recommend substantially updating the README file to include: (1) a citation to the manuscript, and (2) a note that it accompanies a manuscript with the title and authors of the manuscript; (3) a brief description of the files included in the repository and their precise relationship to the figures and tables in the manuscript; (4) the names and version numbers of the key pieces of software used; (5) brief instructions to the user about how to get started working with the project, eg. which file to open first to reproduce the results presented in the paper.
 
 
 

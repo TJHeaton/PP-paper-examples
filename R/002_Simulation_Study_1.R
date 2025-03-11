@@ -1,5 +1,7 @@
 # This code implements simulation study 1
 # An example where there is a single uniform phase model (i.e. two change points)
+
+# Install development version 1.0.1.9000 of carbondate library
 devtools::install_github("TJHeaton/carbondate")
 library(carbondate)
 
@@ -61,11 +63,11 @@ PP_fit_output_simulation_1 <- PPcalibrate(
 
 # Now plot the Poisson process rate
 if(pdf_output) {
-  pdf("Plots/SimulationStudy1/PosteriorMean.pdf",
+  pdf("output/SimulationStudy1/PosteriorMean.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy1/PosteriorMean.png",
+  png("output/SimulationStudy1/PosteriorMean.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -122,11 +124,11 @@ dev.off()
 #######################################################################
 ### Plot 2: The posterior number of internal changes
 if(pdf_output) {
-  pdf("Plots/SimulationStudy1/Number_Changepoints.pdf",
+  pdf("output/SimulationStudy1/Number_Changepoints.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy1/Number_Changepoints.png",
+  png("output/SimulationStudy1/Number_Changepoints.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -144,11 +146,11 @@ dev.off()
 #######################################################################
 ## Plot 3: The locations of the changes
 if(pdf_output) {
-  pdf("Plots/SimulationStudy1/Changepoint_Locations.pdf",
+  pdf("output/SimulationStudy1/Changepoint_Locations.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy1/Changepoint_Locations.png",
+  png("output/SimulationStudy1/Changepoint_Locations.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -200,11 +202,11 @@ dev.off()
 
 ## Plot S1A: Some individual posterior realisations
 if(pdf_output) {
-  pdf("Plots/SimulationStudy1/PosteriorRealisations.pdf",
+  pdf("output/SimulationStudy1/PosteriorRealisations.pdf",
       width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy1/PosteriorRealisations.png",
+  png("output/SimulationStudy1/PosteriorRealisations.png",
       width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -254,11 +256,11 @@ dev.off()
 # Calculate and plot the posterior mean rate over time
 # (with its 2 sigma intervals)
 if(pdf_output) {
-  pdf("Plots/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.pdf",
+  pdf("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.pdf",
       width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.png",
+  png("output/SimulationStudy1/Conditioned_Two_Changes_PosteriorMean.png",
       width = 1.5 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)

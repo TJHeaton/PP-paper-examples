@@ -1,6 +1,8 @@
 # This file performs simulation study 2
 # Creates the rate illustration plot (with four internal changes)
 # and then fits a PP model to it
+
+# Install development version 1.0.1.9000 of carbondate library
 devtools::install_github("TJHeaton/carbondate")
 library(carbondate)
 
@@ -64,11 +66,11 @@ norm_constant_true_rate <- sum(true_rate)
 #########################################################
 ### Create plot to show the underlying (true) PP rate
 if(pdf_output) {
-  pdf("Plots/IllustratePP.pdf",
+  pdf("output/IllustratePP.pdf",
       width = 8,
       height = 3)
 } else {
-  png("Plots/IllustratePP.png",
+  png("output/IllustratePP.png",
       width = 8,
       height = 3,
       units = "in", res = 480)
@@ -189,11 +191,11 @@ PP_fit_output_simulation_2 <- PPcalibrate(
 
 # Now plot the Poisson process rate
 if(pdf_output) {
-  pdf("Plots/SimulationStudy2/PosteriorMean.pdf",
+  pdf("output/SimulationStudy2/PosteriorMean.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy2/PosteriorMean.png",
+  png("output/SimulationStudy2/PosteriorMean.png",
       width = 3 * plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -255,11 +257,11 @@ dev.off()
 ###########################################################################
 ### Plot 2: The posterior number of internal changes
 if(pdf_output) {
-  pdf("Plots/SimulationStudy2/Number_Changepoints.pdf",
+  pdf("output/SimulationStudy2/Number_Changepoints.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy2/Number_Changepoints.png",
+  png("output/SimulationStudy2/Number_Changepoints.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -277,11 +279,11 @@ dev.off()
 #######################################################################
 ## Plot 3: The locations of the changes
 if(pdf_output) {
-  pdf("Plots/SimulationStudy2/Changepoint_Locations.pdf",
+  pdf("output/SimulationStudy2/Changepoint_Locations.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy2/Changepoint_Locations.png",
+  png("output/SimulationStudy2/Changepoint_Locations.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
@@ -324,11 +326,11 @@ dev.off()
 ############################################################
 ### Plot 4: The posterior rates in the different periods
 if(pdf_output) {
-  pdf("Plots/SimulationStudy2/PosteriorHeights.pdf",
+  pdf("output/SimulationStudy2/PosteriorHeights.pdf",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac)
 } else {
-  png("Plots/SimulationStudy2/PosteriorHeights.png",
+  png("output/SimulationStudy2/PosteriorHeights.png",
       width = plot_width/plot_scale_fac,
       height = plot_height/plot_scale_fac,
       units = "in", res = 480)
