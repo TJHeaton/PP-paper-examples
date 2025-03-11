@@ -3,7 +3,7 @@ This repository contains all the code to run the examples for the Poisson proces
 
 Heaton TJ, Bard E & Al-assam S. (to appear) "A New Approach to Radiocarbon Summarisation: Rigorous Identification of Variations/Changepoints in the Occurrence Rate of Radiocarbon Samples using a Poisson Process." _Journal of Archaelogical Science_ (XXXX)
 
-All code uses the `carbondate` R library that is provided alongside the manuscript. The scripts use the current development version 1.0.1.9000 available using `devtools::install_github("TJHeaton/carbondate")` but all the code (except the SI figures in simulation study 1) will also run using version 1.0.1 available through CRAN.    
+All code uses the `carbondate` R library that is provided alongside the manuscript. The scripts use the current development version 1.0.1.9000 available using `devtools::install_github("TJHeaton/carbondate")` but all the code (except the SI figures showing the individual realisations and conditional mean in simulation study 1) will also run using version 1.0.1 available through CRAN.    
 
 
 ## Repository Format 
