@@ -25,7 +25,7 @@ The specific analyses one might wish to run are describd below. All scripts can 
 ### Analysis of Late-pleistocene Megafauna (Dale Guthrie, 2006)
 This code can be run by sourcing:
 
-*001_Analyse_Guthrie_Pleistocene_c14_Dates.R* 
+- *001_Analyse_Guthrie_Pleistocene_c14_Dates.R* 
 
 This will fit the Poisson process model to the c14 dates corresponding to humans, alces, bison and mammoth. For each speciies, it will plot the posterior mean of the Poisson process sample occurrence rate, a histogram of the posterior number of changepoints, and histograms of the posterior locations of those changepoints (conditional on their number). All these plots will be written to the relevant files in `output` - they will not appear in the plotting window within Rstudio.  
 
@@ -43,8 +43,8 @@ Again plots of the posterior mean of the sample occurrence rate, histograms of t
 ### Evidence of SPD failure
 The demonstrations/illustrations of how SPDs fail to provide reliable or accurate estimates are reproduced by
 
-- 004_SPDFailure.R --- creates plots showing how SPDs are overly variable (Figure 2) and how an SPD of a songle determination makes no sense (Figure 3)
-- 005_SPD_Bootstrapping_Failure.R --- creates plot illustrating the failure of bootstrapping and confidence intervals for SPDs (Figure 4) 
+- *004_SPDFailure.R* --- creates plots showing how SPDs are overly variable (Figure 2) and how an SPD of a songle determination makes no sense (Figure 3)
+- *005_SPD_Bootstrapping_Failure.R* --- creates plot illustrating the failure of bootstrapping and confidence intervals for SPDs (Figure 4) 
 
 
 
