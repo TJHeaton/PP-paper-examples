@@ -15,9 +15,7 @@ mammoth_PP_fit_output <- PPcalibrate(
   show_progress = TRUE)
 
 ## Plot the posterior mean occurrence rate
-out_file_name <- paste("output/PriorMeanChangepoints",
-                       prior_n_internal_changepoints_lambda,
-                       "/FitPP_Mammoth_PriorMean_",
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Changes", sep = "")
 
@@ -82,9 +80,7 @@ if(write_plots_to_file) {
 
 ##############################################
 #Plot changepoint locations
-out_file_name <- paste("output/PriorMeanChangepoints",
-                       prior_n_internal_changepoints_lambda,
-                       "/FitPP_Mammoth_PriorMean_",
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Locations_Changepoint", sep = "")
 
@@ -145,9 +141,7 @@ if(write_plots_to_file) {
 #######################################################################
 ### Plot the posterior number of internal changes
 
-out_file_name <- paste("output/PriorMeanChangepoints",
-                       prior_n_internal_changepoints_lambda,
-                       "/FitPP_Mammoth_PriorMean_",
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Mammoth_PriorMean_",
                        prior_n_internal_changepoints_lambda,
                        "_Number_Changepoint", sep = "")
 
