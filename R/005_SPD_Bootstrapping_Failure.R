@@ -557,9 +557,10 @@ plot(
   yaxs = "i")
 rug(obs_radiocarbon_ages, side = 2, ticksize = 0.03, lwd = 1, col = "red")
 
-# Reset plotting parameters
-par(oldpar)
 
 if(write_plots_to_file) {
   dev.off()
 }
+
+# Return to user specified par parameters (before running code)
+par(oldpar)
