@@ -29,25 +29,26 @@ This code can be run by sourcing:
 
 - *001_Analyse_Guthrie_Pleistocene_c14_Dates.R* 
 
-This will fit the Poisson process model to the c14 dates corresponding to humans, alces, bison and mammoth. For each species, it will plot the posterior mean of the Poisson process sample occurrence rate, a histogram of the posterior number of changepoints, and histograms of the posterior locations of those changepoints (conditional on their number). 
+This will fit the Poisson process model to the c14 dates corresponding to humans, alces, bison and mammoth. For each species, it will plot the posterior mean of the Poisson process sample occurrence rate, a histogram of the posterior number of changepoints, and histograms of the posterior locations of those changepoints (conditional on their number).
 
 In the code, we have specified the prior on the number of changepoints to have a mean of 6. The output plots will be saved in `output/PleistoceneMegafauna/`.  If you change the prior mean on the number of changepoints, the names of the plots in this directory will change automatically, e.g., the plot of the changepoint locations will shift to `FitPP_Alces_PriorMean_8_Locations_Changepoint` if you specify the prior on the number of changepoints to have a mean of 8. 
 
 ### Simulation Study on Artificial Examples
-The manuscript provides two simulation studies. To run these, source:
+The manuscript provides three simulation studies. To run these, source:
 
 - *002_Simulation_Study_1_Single_Uniform.R* --- to run the simulation study example 1, a single uniform phase (a Poisson process with two changepoints) 
 - *003_Simulation_Study_2_Four_Changepoints.R* --- to run the simulation study example 2, a Poisson process with four changepoints
+- *004_Simulation_Study_3__Exponential_Growth.R* --- to run the simulation study example 3 corresponding to a Poisson process with exponential growth in the occurrence rate
 
 Again plots of the posterior mean of the sample occurrence rate, histograms of the posterior number of changepoints, and histograms of their locations are generated. For simulation study 1, we also create the plots in the SI showing individual posterior realisations of the rate (and the mean rate conditional on a specified number of changepoints).  
 
-Should you set `write_plots_to_file <- TRUE` the plots will be written to `output/SimulationStudy1` and `output/SimulationStudy2` respectively. Otherwise, they will appear in the plotting window.
+Should you set `write_plots_to_file <- TRUE` the plots will be written to `output/SimulationStudy1`, `output/SimulationStudy2` and `output/SimulationStudy3` respectively. Otherwise, they will appear in the plotting window.
 
 ### Evidence of SPD failure
 The demonstrations/illustrations of how SPDs fail to provide reliable or accurate estimates are reproduced by
 
-- *004_SPDFailure.R* --- creates plots showing how SPDs are overly variable (Figure 2) and how an SPD of a single determination makes no sense (Figure 3)
-- *005_SPD_Bootstrapping_Failure.R* --- creates plot illustrating the failure of bootstrapping and confidence intervals for SPDs (Figure 4) 
+- *005_SPDFailure.R* --- creates plots showing how SPDs are overly variable (Figure 2) and how an SPD of a single determination makes no sense (Figure 3)
+- *006_SPD_Bootstrapping_Failure.R* --- creates plot illustrating the failure of bootstrapping and confidence intervals for SPDs (Figure 4) 
 
 All plots from these examples will be stored in `output/SPDFailure` should you set `write_plots_to_file <- TRUE`. Otherwise, they will appear in the plotting window.
 

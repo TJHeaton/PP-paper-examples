@@ -207,7 +207,7 @@ PP_fit_output_simulation_2 <- PPcalibrate(
 if(write_plots_to_file) {
   if(pdf_output) {
     pdf("output/SimulationStudy2/PosteriorMean.pdf",
-        width = plot_width/plot_scale_fac,
+        width = 3 * plot_width/plot_scale_fac,
         height = plot_height/plot_scale_fac)
   } else {
     png("output/SimulationStudy2/PosteriorMean.png",
@@ -260,7 +260,7 @@ if(add_SPD) {
 }
 
 if(add_true_rate) {
-  lines(c(min(t), t, max(t)), c(0,true_rate,0), lty = 1, col = "red")
+  lines(c(min(t), t, max(t)), c(0,true_rate,0), lty = 1, col = "red", lwd = abline_lwd)
 }
 
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
@@ -316,26 +316,15 @@ if(write_plots_to_file) {
   }
 }
 
-
-
-PlotPosteriorChangePoints(PP_fit_output_simulation_2, n_changes = c(3, 4, 5))
-xlim <- rev(range(simulated_PP_mean_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(simulated_PP_mean_fit$rate_mean))
-par(new = TRUE,
-    mgp = c(3, 0.7, 0),
+# Make sure that the x-axis is the same as for the plot of posterior mean
+# Requires xaxs and yas = "i"
+par(mgp = c(3, 0.7, 0),
+    xaxs = "i",
+    yaxs = "i",
     mar = c(5, 4.5, 4, 2) + 0.1,
     las = 1)
-plot(
-  NULL,
-  NULL,
-  type = "n",
-  ylim = ylim,
-  xlim = xlim,
-  axes = FALSE,
-  xlab = NA,
-  ylab = NA,
-  xaxs = "i",
-  yaxs = "i")
+
+PlotPosteriorChangePoints(PP_fit_output_simulation_2, n_changes = c(3, 4, 5))
 
 # Overlay the true underlying changepoints
 abline(v = t[350], col = abline_col, lty = abline_lty, lwd = abline_lwd)

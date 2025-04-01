@@ -10,6 +10,9 @@ plot_scale_fac <- 1.4
 plot_height <- 9
 plot_width <- 8
 SPD_colour <- grey(0.1, alpha = 0.1)
+abline_col <- rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255) # Was alpha = 0.25
+abline_lty <- 1
+abline_lwd <- 4
 add_true_rate <- TRUE
 add_SPD <- TRUE
 lab_adj <- 0.02
@@ -123,8 +126,8 @@ if(add_SPD) {
 }
 
 # Overlay the true underlying changepoints
-abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
-abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = min_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
+abline(v = max_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
 
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
@@ -179,7 +182,8 @@ if(write_plots_to_file) {
   }
 }
 
-
+# Make sure that the x-axis is the same as for the posterior mean
+# Requires xaxs and yaxs = "i"
 par(mgp = c(3, 0.7, 0),
     xaxs = "i",
     yaxs = "i",
@@ -187,27 +191,10 @@ par(mgp = c(3, 0.7, 0),
     las = 1)
 
 PlotPosteriorChangePoints(PP_fit_output_simulation_1)
-xlim <- rev(range(simulated_PP_mean_fit$calendar_age_BP))
-ylim <- c(0, 3 * max(simulated_PP_mean_fit$rate_mean))
-par(new = TRUE,
-    mgp = c(3, 0.7, 0),
-    mar = c(5, 4.5, 4, 2) + 0.1,
-    las = 1)
-plot(
-  NULL,
-  NULL,
-  type = "n",
-  ylim = ylim,
-  xlim = xlim,
-  axes = FALSE,
-  xlab = NA,
-  ylab = NA,
-  xaxs = "i",
-  yaxs = "i")
 
 # Overlay the true underlying changepoints
-abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
-abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = min_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
+abline(v = max_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
 
 # Add panel label
 mtext(LETTERS[3], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
@@ -270,8 +257,8 @@ plot(
   yaxs = "i")
 
 # Overlay the true underlying changepoints
-abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
-abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = min_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
+abline(v = max_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
 
 mtext(LETTERS[1], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
@@ -324,8 +311,8 @@ plot(
   yaxs = "i")
 
 # Overlay the true underlying changepoints
-abline(v = min_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
-abline(v = max_cal, col = rgb(219,62,177, alpha = 255*0.25, maxColorValue = 255), lty = 1, lwd = 4)
+abline(v = min_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
+abline(v = max_cal, col = abline_col, lty = abline_lty, lwd = abline_lwd)
 
 mtext(LETTERS[2], side = 3, adj = lab_adj, cex = panel_label_cex, font = 2,
       line = 5/3 * (-1), outer = FALSE)
