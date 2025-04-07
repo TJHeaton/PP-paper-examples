@@ -52,8 +52,14 @@ The demonstrations/illustrations of how SPDs fail to provide reliable or accurat
 
 All plots from these examples will be stored in `output/SPDFailure` should you set `write_plots_to_file <- TRUE`. Otherwise, they will appear in the plotting window.
 
+### Additional Analysis of Late-Pleistocene Equus (Dale Guthrie, 2006)
+We have also provided code to analyse the occurrence of c14 samples corresponding to horse (Equus) in Alaska and the Yukon (Dale Guthrie, 2006). This can be run using:
 
+- *007_Analyse_Equus.R* 
 
+This analysis is analogous to the analysis of the other megafauna - it is only not shown in the manuscript for space saving reasons. The code fits the Poisson process model to the Equus samples, plots the posterior mean of the Poisson process sample occurrence rate, a histogram of the posterior number of changepoints, and histograms of the posterior locations of those changepoints (conditional on their number). We have specified the prior on the number of changepoints to have a mean of 6 but this can be altered. 
+
+The output plots will be saved in `output/PleistoceneMegafauna/`. If you change the prior mean on the number of changepoints, the names of the plots in this directory will change automatically, e.g., the plot of the changepoint locations will shift to `FitPP_Equus_PriorMean_8_Locations_Changepoint` if you specify the prior on the number of changepoints to have a mean of 8. 
 
 
 
