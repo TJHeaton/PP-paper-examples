@@ -24,6 +24,22 @@ cutoffages <- c(6000, 25000)
 # Choose a common prior on number of changepoints
 prior_n_internal_changepoints_lambda <- 6
 
+##################################################
+# Fit a PP model to each of the datasets and create later plots
+##################################################
+
+# Find the plausible calendar age range
+min_calendar_age_range <- intcal20$calendar_age_BP[which.min(abs(intcal20$c14_age - cutoffages[1]))] - 250
+max_calendar_age_range <- intcal20$calendar_age_BP[which.min(abs(intcal20$c14_age - cutoffages[2]))] + 250
+calendar_age_range <- c(min_calendar_age_range, max_calendar_age_range)
+
+# Read in cold/warm periods
+Heinrich <- read.csv("data/PleistoceneDates/HeinrichDates.csv", header = FALSE)
+names(Heinrich) <- c("Event", "calage")
+YD <- data.frame(Event = c("end YD", "start YD"), calage = c(11703, 12896) - 50)
+Heinrich <- rbind(YD, Heinrich)
+
+
 # Fit PP model to the equus data
 equus_PP_fit_output <- PPcalibrate(
   rc_determinations = equus$c14_age,
