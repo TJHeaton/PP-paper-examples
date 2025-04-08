@@ -14,10 +14,11 @@ human_PP_fit_output <- PPcalibrate(
   n_thin = 10,
   show_progress = TRUE)
 
-## Plot the posterior mean occurrence rate
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_PriorMean_",
+
+## Plot i) - The posterior mean occurrence rate
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_PosteriorMean_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Changes", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -35,7 +36,8 @@ if(write_plots_to_file) {
 
 # Plot the posterior mean for rate of human occupation
 human_PP_mean_fit <- PlotPosteriorMeanRate(human_PP_fit_output,
-                                           show_individual_means = FALSE)
+                                           show_individual_means = FALSE,
+                                           plot_lwd = 1)
 # We do not show the individual posterior mean calendar ages as it is a bit confusing
 
 # Create new overlay (with same calendar age scale) on which we plot the cold/warm periods
@@ -79,10 +81,11 @@ if(write_plots_to_file) {
 }
 
 ##############################################
-#Plot changepoint locations
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_PriorMean_",
+# Plot ii) The posterior estimates of the locations of the changepoints (conditional on number)
+
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_Locations_Changepoints_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Locations_Changepoint", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -139,12 +142,11 @@ if(write_plots_to_file) {
 }
 
 #######################################################################
-### Plot the posterior number of internal changes
+# Plot iii) A histogram of the posterior number of changepoints
 
-
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_PriorMean_",
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Human_Number_Changepoints_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Number_Changepoint", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {

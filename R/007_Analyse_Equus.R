@@ -1,13 +1,15 @@
 # Analysis of Equus data (using in-built library)
+# Results not shown in manuscript - but available for interest
+
+### The results are only not shown in the manuscript for space saving reasons. Creates three plots:
+# Plot i) The posterior mean of the sample occurrence rate
+# Plot ii) The posterior estimates of the locations of the changepoints (conditional on number)
+# Plot iii) A histogram of the posterior number of changepoints
+
 set.seed(19)
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Load carbondate library
 library(carbondate)
-
-# Violin plot of the radiocarbon ages of the different species in Yukon
-library(ggplot2)
-library(patchwork)
 
 # Decide if write plots to file
 write_plots_to_file <- FALSE
@@ -25,7 +27,7 @@ cutoffages <- c(6000, 25000)
 prior_n_internal_changepoints_lambda <- 6
 
 ##################################################
-# Fit a PP model to each of the datasets and create later plots
+# Fit a PP model and create plots of the posterior
 ##################################################
 
 # Find the plausible calendar age range
@@ -52,10 +54,10 @@ equus_PP_fit_output <- PPcalibrate(
   n_thin = 10,
   show_progress = TRUE)
 
-## Plot the posterior mean occurrence rate
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_PriorMean_",
+## Plot i) - The posterior mean occurrence rate
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_PosteriorMean_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Changes", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -117,10 +119,11 @@ if(write_plots_to_file) {
 
 
 ##############################################
-#Plot changepoint locations
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_PriorMean_",
+# Plot ii) The posterior estimates of the locations of the changepoints (conditional on number)
+
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_Locations_Changepoints_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Locations_Changepoint", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -177,11 +180,11 @@ if(write_plots_to_file) {
 }
 
 #######################################################################
-### Plot the posterior number of internal changes
+# Plot iii) A histogram of the posterior number of changepoints
 
-out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_PriorMean_",
+out_file_name <- paste("output/PleistoceneMegafauna/FitPP_Equus_Number_Changepoints_Prior_",
                        prior_n_internal_changepoints_lambda,
-                       "_Number_Changepoint", sep = "")
+                       "_Internal_Changes", sep = "")
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -200,8 +203,6 @@ if(write_plots_to_file) {
       cex.lab = 1.6,
       mar = c(5, 4.5, 0.85, 0.55) + 0.1)
 }
-
-
 
 
 PlotNumberOfInternalChanges(equus_PP_fit_output)

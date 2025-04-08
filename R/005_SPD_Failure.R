@@ -1,8 +1,18 @@
 # Illustrate the failings of SPDs
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Performs two analyses:
+# Analysis 1: Simulates samples from a calendar age model that is a mixture of two normals
+# - Show that SPDs are overly variable, overly spread and cannot be easily interpreted.
+# - Demonstrates that the DPMM (Heaton, 2022) is able to reconsruct the underlying calndar age model
+# This forms Fig 2
+
+# Analysis 2: Calibrates SPD from a single 14C determination
+# - Show that SPDs paradigm of multiple periods of activity is evidently false
+# This forms Figure 3
+
+# Load carbondate library
 library(carbondate)
+
 
 # Plotting parameters
 plot_height <- 4
@@ -20,13 +30,13 @@ write_plots_to_file <- FALSE
 oldpar <- par(no.readonly = TRUE)
 
 ##############################################################
-#### Plots/Illustration 1
-#### Set of two plots
-#### Plot A - Show SPDs overly variable and interpretation hard
-#### Plot B - Polya Urn (not used in paper but just to show it works)
+#### Analysis 1 - Recosntructing a mixture of two normals
+#### Set of two plots - the first is used as Fig 2
+#### Plot i) - Show SPD is overly variable and interpretation hard
+#### Plot ii)  - Show Polya Urn DPMM reconstruction works (not used in paper)
 ##############################################################
 
-# Plot 1
+# Plot i) - Show that SPDs overly variable and interpretation hard
 out_file_name <- "output/SPDFailure/SPDOverlyVariable"
 
 # Decide if write plots to a file
@@ -107,7 +117,7 @@ if(write_plots_to_file) {
 
 
 #####
-# Plot B - show how a DPMM works to recreate correct calendar age density
+# Plot ii) - show how a DPMM works to recreate correct calendar age density
 out_file_name <- "output/SPDFailure/DPMMFit"
 
 # Decide if write plots to a file
@@ -189,7 +199,7 @@ if(write_plots_to_file) {
 
 
 ##############################################################
-#### Plots/Illustration 2
+#### Analysis 2
 #### Single plot to show single determination SPD doesn't make sense
 #### there needs to be some modelling in the calendar age domain
 ##############################################################

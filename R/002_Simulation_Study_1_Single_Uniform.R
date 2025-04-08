@@ -1,8 +1,14 @@
-# This code implements simulation study 1
+# This code implements Simulation Study 1
 # An example where there is a single uniform phase model (i.e. two change points)
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Creates three plots used for Fig 6:
+# Plot i) The posterior mean of the sample occurrence rate
+# Plot ii) A histogram of the posterior number of changepoints
+# Plot iii) The posterior estimates of the locations of the changepoints (conditional on number)
+
+# Also plots for SI Fig 1 - which show individual posterior realisations of the rate and the conditional mean
+
+# Load carbondate library
 library(carbondate)
 
 # Select plotting parameters
@@ -71,8 +77,7 @@ PP_fit_output_simulation_1 <- PPcalibrate(
 
 ######### Now create plots to show results
 
-# Now plot the Poisson process rate
-
+## Plot i) - The posterior mean occurrence rate
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -88,7 +93,6 @@ if(write_plots_to_file) {
   }
 }
 
-## Plot 1: The posterior mean occurrence rate
 simulated_PP_mean_fit <- PlotPosteriorMeanRate(PP_fit_output_simulation_1)
 par(new = TRUE,
     mgp = c(3, 0.7, 0),
@@ -138,7 +142,7 @@ if(write_plots_to_file) {
 
 
 #######################################################################
-### Plot 2: The posterior number of internal changes
+### Plot ii) The posterior number of internal changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -166,7 +170,7 @@ if(write_plots_to_file) {
 
 
 #######################################################################
-## Plot 3: The locations of the changes
+## Plot iii) The locations of the changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -205,9 +209,9 @@ if(write_plots_to_file) {
 }
 
 #############################################
-# Plot for Suppl Info
-# A - Some individual posterior realisations
-# B - Posterior mean conditioned on specific k
+# Plotting for Suppl Info Figure
+# S1A - Some individual posterior realisations
+# S1B - Posterior mean conditioned on specific k
 # For illustrative purposes
 #############################################
 

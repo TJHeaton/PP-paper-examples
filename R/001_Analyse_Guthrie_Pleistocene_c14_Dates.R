@@ -1,15 +1,17 @@
 # This file analyses the Dale Guthrie (2006) data of Pleistocene Megafauna:
 # Specifically:
-# 1 - Creates Figure 1 - A violin plot of Guthrie's 14C determinations
+# 1 - Creates Figure 1:
+#   Panel A - violin plot of Guthrie's 14C determinations
+#   Panel B - plot of human 14C determinations against IntCal20 curve
+# Then
 # 2 - Fits Poisson Process model to each species and creates plots/figures shown in real-life case study
+# The plots from the PP are merged into Figs 9 and 10
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Load carbondate library
 library(carbondate)
 
-# Violin plot of the radiocarbon ages of the different species in Yukon
+# Load other libraries
 library(ggplot2)
-library(patchwork)
 
 # Decide if write plots to file
 write_plots_to_file <- FALSE
@@ -92,9 +94,9 @@ Pleist14C$Species <- factor(Pleist14C$Species,
 
 
 ##################################################################
-### Create initial violin plots and plot human 14C determinations against IntCal20 curve
+### Create Fig 1: Initial violin plots and plot human 14C determinations against IntCal20 curve
 
-# Create violin plot
+# Create violin plot (Fig 1A)
 ggplot2::theme_update(plot.tag = element_text(face = "bold"))
 
 p <- ggplot(Pleist14C, aes(x=Species, y=C14age, fill = Species))
@@ -116,7 +118,7 @@ p
 dev.off()
 
 
-# Create panel B showing 14C determinations of humans against IntCal20
+# Create Fig 1B showing 14C determinations of humans against IntCal20
 source("R/PlotHumansvsIntCal20.R")
 
 
@@ -140,7 +142,14 @@ Heinrich <- rbind(YD, Heinrich)
 
 
 
-# Run code to fit PP model and create plotted output for later figures
+# Run code to fit PP model and create plotted output
+
+### Each example will create three plots:
+# Plot i) The posterior mean of the sample occurrence rate
+# Plot ii) The posterior estimates of the locations of the changepoints (conditional on number)
+# Plot iii) A histogram of the posterior number of changepoints
+### These are merged into Figs 9 and 10
+
 set.seed(17)
 source("R/FitPPHumans.R")
 source("R/FitPPAlces.R")

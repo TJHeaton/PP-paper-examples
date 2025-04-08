@@ -1,9 +1,14 @@
-# This file performs simulation study 3
+# This file performs Simulation Study 3
 # Creates a Poisson process with an exponentially increasing occurrence rate and then fits a PP model to it
 # This simulation is analogous to Example 1 from Crema and Shoda (PloS, 2021)
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Creates three plots used for Fig 8:
+# Plot i) The posterior mean of the sample occurrence rate
+# Plot ii) A histogram of the posterior number of changepoints
+# Plot iii) The posterior estimates of the locations of the changepoints (conditional on number)
+
+
+# Load carbondate library
 library(carbondate)
 
 # Set the mean number of internal changepoints in the prior
@@ -26,7 +31,7 @@ lab_adj <- 0.02
 panel_label_cex <- plot_scale_fac * 4/3
 
 # Decide if write plots to file
-write_plots_to_file <- TRUE
+write_plots_to_file <- FALSE
 
 # Store user par parameters (and revert back to these at the end)
 oldpar <- par(no.readonly = TRUE)
@@ -92,6 +97,8 @@ PP_fit_output_simulation_3 <- PPcalibrate(
 #####################################################
 ######### Create the plots of the posterior
 
+## Plot i) The posterior mean occurrence rate
+
 # Decide if write plots to a file
 if(write_plots_to_file) {
   if(pdf_output) {
@@ -110,7 +117,6 @@ if(write_plots_to_file) {
   }
 }
 
-## Plot 1: The posterior mean occurrence rate
 simulated_PP_mean_fit <- PlotPosteriorMeanRate(PP_fit_output_simulation_3,
                                                show_individual_means = FALSE)
 par(new = TRUE,
@@ -162,7 +168,7 @@ if(write_plots_to_file) {
 
 
 ###########################################################################
-### Plot 2: The posterior number of internal changes
+### Plot ii) The posterior number of internal changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -195,7 +201,7 @@ if(write_plots_to_file) {
 
 
 #######################################################################
-## Plot 3: The locations of the changes
+## Plot iii) The locations of the changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {

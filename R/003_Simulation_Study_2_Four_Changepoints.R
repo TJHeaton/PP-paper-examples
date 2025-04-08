@@ -1,9 +1,16 @@
-# This file performs simulation study 2
-# Creates the rate illustration plot (with four internal changes)
-# and then fits a PP model to it
+# This file performs Simulation Study 2
+# Simulates the data in Fig 5 (with four internal changes) and then fits a PP to it
 
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Creates the plots for
+# Fig 5 - The rate illustration plot (with four internal changes)
+# and also
+# Fig 7 - this consists of four plots of the PP output (which are then combined):
+# Plot i) The posterior mean of the sample occurrence rate
+# Plot ii) A histogram of the posterior number of changepoints
+# Plot iii) The posterior estimates of the locations of the changepoints (conditional on number)
+# Plot iv) The posterior occurrence rates in the different periods
+
+# Load carbondate library
 library(carbondate)
 
 # Plotting parameters
@@ -68,7 +75,7 @@ norm_constant_true_rate <- sum(true_rate)
 
 
 #########################################################
-### Create plot to show the underlying (true) PP rate
+### Create Fig 5 - plot to show the underlying (true) PP rate
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -199,9 +206,9 @@ PP_fit_output_simulation_2 <- PPcalibrate(
 
 
 #####################################################
-######### Now create the plots of the posterior
+######### Create the plots of the PP posterior
 
-# Now plot the Poisson process rate
+## Plot i) - The posterior mean occurrence rate
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -217,7 +224,6 @@ if(write_plots_to_file) {
   }
 }
 
-## Plot 1: The posterior mean occurrence rate
 simulated_PP_mean_fit <- PlotPosteriorMeanRate(PP_fit_output_simulation_2)
 par(new = TRUE,
     mgp = c(3, 0.7, 0),
@@ -272,7 +278,7 @@ if(write_plots_to_file) {
 
 
 ###########################################################################
-### Plot 2: The posterior number of internal changes
+### Plot ii) The posterior number of internal changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -300,7 +306,7 @@ if(write_plots_to_file) {
 
 
 #######################################################################
-## Plot 3: The locations of the changes
+## Plot iii) The locations of the changes
 
 # Decide if write plots to a file
 if(write_plots_to_file) {
@@ -341,7 +347,7 @@ if(write_plots_to_file) {
 
 
 ############################################################
-### Plot 4: The posterior rates in the different periods
+### Plot iv) The posterior rates in the different periods
 
 # Decide if write plots to a file
 if(write_plots_to_file) {

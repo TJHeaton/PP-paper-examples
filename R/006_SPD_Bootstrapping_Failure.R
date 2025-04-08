@@ -1,12 +1,16 @@
 ##############################################################
 # File to illustrate bootstrap failure of SPDs
 #### Set of four plots to show failure of bootstrap confidence intervals for SPDs
+# We sample 50 observations from a uniform calendar age model,
+# Then show that the SPD and its bootstrap interval do not recover this model
+# Plot i) Illustrate sampling 14C determinations from a uniform phase calendar age model
+# Plot ii) Show the SPD corresponding to sampling from this uniform calendar age model (it does not provide a fiathful reconstruction)
+# Plot iii) Illustrate creation of SPD on resampled/bootstrap sample
+# Plot iv) Create plot showing SPD bootstrap intervals and demonstrating bootstrap failure
+# These plots are used in Fig 4
 ##############################################################
 
-# Illustrate the failings of SPDs
-
-# Install development version 1.0.1.9000 of carbondate library
-devtools::install_github("TJHeaton/carbondate")
+# Load carbondate library
 library(carbondate)
 
 # Plotting parameters
@@ -87,7 +91,7 @@ rm(calibration_curve_lb,
    cal_age_ind_max,
    cal_age_ind_min)
 
-## Plot A - Illustrate sampling 14C determinations  from a uniform phase
+## Plot i) - Illustrate sampling 14C determinations from a uniform phase
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure1"
 
 # Decide if write plots to a file
@@ -176,7 +180,7 @@ if(write_plots_to_file) {
 
 
 #####################################################################################
-# Plot B - showing the SPD of this density (doesn't look like the original)
+# Plot ii) showing the SPD of this density (doesn't look like the original)
 out_file_name <- "output/SPDFailure/SPDBootstrapFailure/BootstrapFailure2"
 
 # Decide if write plots to a file
@@ -286,7 +290,7 @@ if(write_plots_to_file) {
 
 
 ##############################################################
-# Plot C - SPD on resampled/bootstrap sample
+# Plot iii) Illustrate creation of SPD on resampled/bootstrap sample
 
 # First make sure the density axis is the same for initial and bootstrap SPD
 SPD_bootstrap_fit <- FindSummedProbabilityDistribution(
@@ -400,7 +404,7 @@ if(write_plots_to_file) {
 
 
 #############################
-# Plot D - Create plot showing SPD bootstrap intervals
+# Plot iv) Create plot showing SPD bootstrap intervals and demonstrating bootstrap failure
 
 
 # Function to calculate supposed bootstrap CI for SPD
