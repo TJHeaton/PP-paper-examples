@@ -5,6 +5,9 @@ Heaton TJ, Al-assam S. & Bard E  (to appear) "A new approach to radiocarbon summ
 
 All code uses the `carbondate` R library that is provided to accompany the manuscript. This library can be found on CRAN or on Github at [https://tjheaton.github.io/carbondate/](https://tjheaton.github.io/carbondate/). The specific version of `carbondate` used is 1.1.0.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15324467.svg)](https://doi.org/10.5281/zenodo.15324467)
+
+
 ## Installation of carbondate
 The easiest way to install the latest `carbondate` release is via CRAN, by typing the following into your R console:
 ``` r
