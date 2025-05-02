@@ -1,10 +1,6 @@
-# This file analyses the Dale Guthrie (2006) data of Pleistocene Megafauna:
+# This file analyses the Guthrie (2006) data of Pleistocene Megafauna:
 # Specifically:
-# 1 - Creates Figure 1:
-#   Panel A - violin plot of Guthrie's 14C determinations
-#   Panel B - plot of human 14C determinations against IntCal20 curve
-# Then
-# 2 - Fits Poisson Process model to each species and creates plots/figures shown in real-life case study
+# Fits Poisson Process model to each species and creates plots/figures shown in real-life case study
 # The plots from the PP are merged into Figs 9 and 10
 
 # Load carbondate library
@@ -27,7 +23,6 @@ cutoffages <- c(6000, 25000)
 
 # Choose a common prior on number of changepoints
 prior_n_internal_changepoints_lambda <- 6
-
 
 
 ##############################################
@@ -92,39 +87,6 @@ Pleist14C$Species <- factor(Pleist14C$Species,
 
 
 
-
-##################################################################
-### Create Fig 1: Initial violin plots and plot human 14C determinations against IntCal20 curve
-
-# Create violin plot (Fig 1A)
-ggplot2::theme_update(plot.tag = element_text(face = "bold"))
-
-p <- ggplot(Pleist14C, aes(x=Species, y=C14age, fill = Species))
-p <- p + geom_violin(position="dodge", alpha=0.5)
-# p <- p + coord_flip()
-p <- p + geom_jitter(shape=16, position=position_jitter(0.02))
-p <- p + labs(title = expression(paste("Density of ", ""^14, "C dates for Animals in Yukon and Alaska")), x="Species", y = expression(paste("Radiocarbon Age (", ""^14, "C yr", " BP)")))
-p <- p + theme(aspect.ratio = 1)
-p <- p + theme(plot.title = element_text(hjust = 0.5))
-p <- p + theme(legend.position = "none")
-p <- p + labs(tag = "A")
-p
-
-ggsave("output/Pleistocene14CDates.pdf", width = 5.98, height = 5.03, device = "pdf") # Height was 6.03
-
-# Also create a png output
-png("output/Pleistocene14CDates.png", width = 5.98, height = 5.03, units = "in", res = 480)
-p
-dev.off()
-
-
-# Create Fig 1B showing 14C determinations of humans against IntCal20
-source("R/PlotHumansvsIntCal20.R")
-
-
-
-
-
 ##################################################
 # Fit a PP model to each of the datasets and create later plots
 ##################################################
@@ -139,7 +101,6 @@ Heinrich <- read.csv("data/PleistoceneDates/HeinrichDates.csv", header = FALSE)
 names(Heinrich) <- c("Event", "calage")
 YD <- data.frame(Event = c("end YD", "start YD"), calage = c(11703, 12896) - 50)
 Heinrich <- rbind(YD, Heinrich)
-
 
 
 # Run code to fit PP model and create plotted output
